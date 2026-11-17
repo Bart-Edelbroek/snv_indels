@@ -356,4 +356,12 @@ def compile_output_list(wildcards: snakemake.io.Wildcards):
             for suffix in files[prefix]
         ]
 
+    if config.get("gatk_mutect2_tn", False):
+        output_files += [
+            f"snv_indels/gatk_mutect2_tn/{sample}_T_{chrom}.unfiltered.vcf.gz"
+            for sample in get_samples(samples[pd.isnull(samples["trioid"])])
+            if {"T", "N"}.issubset(get_unit_types(units, sample))
+            for chrom in extract_chr(config["reference"]["fai"], filter_out=config.get("reference", {}).get("skip_chrs", []))
+        ]
+
     return output_files

@@ -41,6 +41,54 @@ rule gatk_mutect2:
         "v1.5.0/bio/gatk/mutect"
 
 
+rule gatk_mutect2_tn:
+    input:
+        map=[
+            "alignment/picard_mark_duplicates/{sample}_T_{chr}.bam",
+            "alignment/picard_mark_duplicates/{sample}_N_{chr}.bam",
+        ],
+        bai=[
+            "alignment/picard_mark_duplicates/{sample}_T_{chr}.bam.bai",
+            "alignment/picard_mark_duplicates/{sample}_N_{chr}.bam.bai",
+        ],
+        fasta=config.get("reference", {}).get("fasta", ""),
+        intervals="snv_indels/bed_split/design_bedfile_{chr}.bed",
+    output:
+        bam=temp("snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.bam"),
+        bai=temp("snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.bai"),
+        stats=temp("snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.vcf.gz.stats"),
+        vcf=temp("snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.vcf.gz"),
+        tbi=temp("snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.vcf.gz.tbi"),
+        f1r2=temp("snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.f1r2.tar.gz"),
+    params:
+        # Sample names must match the BAM read-group SM values.
+        extra=lambda wildcards: (
+            config.get("gatk_mutect2_tn", {}).get("extra", "")
+            + f" --tumor-sample {wildcards.sample}_T"
+            + f" --normal-sample {wildcards.sample}_N"
+        ),
+    log:
+        "snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.vcf.gz.log",
+    benchmark:
+        repeat(
+            "snv_indels/gatk_mutect2_tn/{sample}_T_{chr}.unfiltered.vcf.gz.benchmark.tsv",
+            config.get("gatk_mutect2_tn", {}).get("benchmark_repeats", 1),
+        )
+    threads: config.get("gatk_mutect2_tn", {}).get("threads", config["default_resources"]["threads"])
+    resources:
+        mem_mb=config.get("gatk_mutect2_tn", {}).get("mem_mb", config["default_resources"]["mem_mb"]),
+        mem_per_cpu=config.get("gatk_mutect2_tn", {}).get("mem_per_cpu", config["default_resources"]["mem_per_cpu"]),
+        partition=config.get("gatk_mutect2_tn", {}).get("partition", config["default_resources"]["partition"]),
+        threads=config.get("gatk_mutect2_tn", {}).get("threads", config["default_resources"]["threads"]),
+        time=config.get("gatk_mutect2_tn", {}).get("time", config["default_resources"]["time"]),
+    container:
+        config.get("gatk_mutect2_tn", {}).get("container", config["default_container"])
+    message:
+        "{rule}: call variants in {input.map}"
+    wrapper:
+        "v7.6.0/bio/gatk/mutect"
+
+
 rule gatk_mutect2_gvcf:
     input:
         map="alignment/picard_mark_duplicates/{sample}_{type}_{chr}.bam",
