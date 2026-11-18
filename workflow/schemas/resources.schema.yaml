@@ -472,7 +472,7 @@ properties:
 
   gatk_mutect2_filter:
     type: object
-    description: resource definitions for gatk_mutect2_filter
+    description: filtering resource definitions shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       mem_mb:
         type: integer
@@ -512,7 +512,7 @@ properties:
 
   gatk_mutect2_merge_stats:
     type: object
-    description: resource definitions for gatk_mutect2_merge_stats
+    description: statistics merging resource definitions shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       mem_mb:
         type: integer
@@ -712,7 +712,7 @@ properties:
 
   mutect2_pass_filter:
     type: object
-    description: resource definitions for mutect2_pass_filter
+    description: accepted call selection resource definitions shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       mem_mb:
         type: integer

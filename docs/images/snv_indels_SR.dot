@@ -14,6 +14,7 @@ digraph snakemake_dag {
 	12[label = "gatk_mutect2_filter", color = "0.08 0.6 0.85", style="rounded"];
 	13[label = "gatk_mutect2", color = "0.23 0.6 0.85", style="rounded"];
     22[label = "gatk_mutect2_tn", color = "0.23 0.6 0.85", style="rounded"];
+	24[label = "gatk_mutect2_merge_stats", color = "0.23 0.6 0.85", style="rounded"];
 	15[label = "freebayes", color = "0.64 0.6 0.85", style="rounded"];
 	16[label = "gatk_mutect2_gvcf", color = "0.03 0.6 0.85", style="rounded"];
 	17[label = "haplotypecaller", color = "0.23 0.6 0.85", style="rounded"];
@@ -39,7 +40,11 @@ digraph snakemake_dag {
 	20 -> 13
 	20 -> 15
     20 -> 22
-	22 -> 0
+	22 -> 12
+	22 -> 24
+	13 -> 24
+	24 -> 12
+	11 -> 0
 	20 -> 16
 	20 -> 17
 	20 -> 18

@@ -510,6 +510,7 @@ Mutect2 is used to generate a genome vcf file containing allele information for 
 
 ## [gatk_mutect2_filter](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
 Step 3 of 4 of Mutect2 variant calling filtering the called variants using the merged statistics file.
+The rule supports both `gatk_mutect2` and `gatk_mutect2_tn` through the `mutect_caller` wildcard, using the same filtering settings.
 
 ### :snake: Rule
 
@@ -533,6 +534,7 @@ Step 3 of 4 of Mutect2 variant calling filtering the called variants using the m
 
 ## [gatk_mutect2_merge_stats](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
 Step 2 of 4 of Mutect2 variant calling merging the statistics file.
+The rule supports both `gatk_mutect2` and `gatk_mutect2_tn` through the `mutect_caller` wildcard.
 
 ### :snake: Rule
 
@@ -555,8 +557,8 @@ Step 2 of 4 of Mutect2 variant calling merging the statistics file.
 ---
 
 ## [gatk_mutect2_tn](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
-Mutect2 is used for paired tumor-normal variant calling, generating chromosome split unfiltered calls, variant statistic files, realigned bam files and F1R2 counts.
-By default, `{sample}` is a shared pair ID, and the BAM read-group `SM` values are `{sample}_T` and `{sample}_N`. Pipelines with separately named normals can override the normal BAM and sample name.
+Step 1 of 4 of paired tumor-normal Mutect2 variant calling generating chromosome split unfiltered calls, variant statistic files, realigned bam files and F1R2 counts.
+Tumor and normal share `{sample}`, with BAM read-group `SM` values `{sample}_T` and `{sample}_N`.
 
 ### :snake: Rule
 

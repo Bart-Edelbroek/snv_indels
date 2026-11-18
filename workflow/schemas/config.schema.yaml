@@ -371,7 +371,7 @@ properties:
 
   gatk_mutect2_filter:
     type: object
-    description: parameters for gatk_mutect2_filter
+    description: filtering parameters shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       benchmark_repeats:
         type: integer
@@ -399,7 +399,7 @@ properties:
 
   gatk_mutect2_merge_stats:
     type: object
-    description: parameters for gatk_mutect2_merge_stats
+    description: statistics merging parameters shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       benchmark_repeats:
         type: integer
@@ -570,7 +570,7 @@ properties:
 
   mutect2_pass_filter:
     type: object
-    description: parameters for mutect2_pass_filter
+    description: accepted filter flags and settings shared by gatk_mutect2 and gatk_mutect2_tn
     properties:
       benchmark_repeats:
         type: integer

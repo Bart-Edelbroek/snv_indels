@@ -125,19 +125,21 @@ rule gatk_mutect2_gvcf:
 
 rule gatk_mutect2_filter:
     input:
-        vcf="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz",
-        tbi="snv_indels/gatk_mutect2/{sample}_{type}.merged.unfiltered.vcf.gz.tbi",
-        stats="snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats",
+        vcf="snv_indels/{mutect_caller}/{sample}_{type}.merged.unfiltered.vcf.gz",
+        tbi="snv_indels/{mutect_caller}/{sample}_{type}.merged.unfiltered.vcf.gz.tbi",
+        stats="snv_indels/{mutect_caller}/{sample}_{type}.unfiltered.vcf.gz.stats",
         ref=config.get("reference", {}).get("fasta", ""),
     output:
-        vcf=temp("snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz"),
+        vcf=temp("snv_indels/{mutect_caller}/{sample}_{type}.merged.softfiltered.vcf.gz"),
+    wildcard_constraints:
+        mutect_caller="gatk_mutect2|gatk_mutect2_tn",
     params:
         extra=lambda wildcards, input: "%s --stats %s" % (config.get("gatk_mutect2_filter", {}).get("extra", ""), input.stats),
     log:
-        "snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz.log",
+        "snv_indels/{mutect_caller}/{sample}_{type}.merged.softfiltered.vcf.gz.log",
     benchmark:
         repeat(
-            "snv_indels/gatk_mutect2/{sample}_{type}.merged.softfiltered.vcf.gz.benchmark.tsv",
+            "snv_indels/{mutect_caller}/{sample}_{type}.merged.softfiltered.vcf.gz.benchmark.tsv",
             config.get("gatk_mutect2_filter", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("gatk_mutect2_filter", {}).get("threads", config["default_resources"]["threads"])
@@ -158,20 +160,22 @@ rule gatk_mutect2_filter:
 rule gatk_mutect2_merge_stats:
     input:
         stats=expand(
-            "snv_indels/gatk_mutect2/{{sample}}_{{type}}_{chr}.unfiltered.vcf.gz.stats",
+            "snv_indels/{{mutect_caller}}/{{sample}}_{{type}}_{chr}.unfiltered.vcf.gz.stats",
             chr=extract_chr(
                 "%s.fai" % (config["reference"]["fasta"]), filter_out=config.get("reference", {}).get("skip_chrs", [])
             ),
         ),
     output:
-        stats=temp("snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats"),
+        stats=temp("snv_indels/{mutect_caller}/{sample}_{type}.unfiltered.vcf.gz.stats"),
+    wildcard_constraints:
+        mutect_caller="gatk_mutect2|gatk_mutect2_tn",
     params:
         stats=lambda wildcards, input: " -stats ".join(input.stats),
     log:
-        "snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats.log",
+        "snv_indels/{mutect_caller}/{sample}_{type}.unfiltered.vcf.gz.stats.log",
     benchmark:
         repeat(
-            "snv_indels/gatk_mutect2/{sample}_{type}.unfiltered.vcf.gz.stats.benchmark.tsv",
+            "snv_indels/{mutect_caller}/{sample}_{type}.unfiltered.vcf.gz.stats.benchmark.tsv",
             config.get("gatk_mutect2_merge_stats", {}).get("benchmark_repeats", 1),
         )
     threads: config.get("gatk_mutect2_merge_stats", {}).get("threads", config["default_resources"]["threads"])
