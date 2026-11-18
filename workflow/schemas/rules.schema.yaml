@@ -622,6 +622,53 @@ properties:
             type: string
             description: merged stats file used by gatk_mutect2_filter
 
+  gatk_mutect2_tn:
+    type: object
+    description: input and output parameters for gatk_mutect2_tn
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          map:
+            type: array
+            items:
+              type: string
+            description: chromosome split tumor and normal bam files
+          bai:
+            type: array
+            items:
+              type: string
+            description: tumor and normal bam index files
+          fasta:
+            type: string
+            description: fasta reference genome file
+          intervals:
+            type: string
+            description: chromosome split bed file with regions that should be used in calling
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          bam:
+            type: string
+            description: chromosome split bam file with locally assembled reads for inspection in e.g. IGV
+          bai:
+            type: string
+            description: bam index file
+          stats:
+            type: string
+            description: variant statistics file used for variant filtering
+          vcf:
+            type: string
+            description: unfiltered compressed `.vcf.gz` file for one chromosome containing tumor and normal samples
+          tbi:
+            type: string
+            description: tabix file index (`.vcf.gz.tbi`)
+          f1r2:
+            type: string
+            description: archive of F1R2 counts used to learn an orientation bias model for variant filtering
+
   glnexus:
     type: object
     description: input and output parameters for glnexus

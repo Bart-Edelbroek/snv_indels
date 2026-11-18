@@ -554,6 +554,30 @@ Step 2 of 4 of Mutect2 variant calling merging the statistics file.
 
 ---
 
+## [gatk_mutect2_tn](https://gatk.broadinstitute.org/hc/en-us/articles/13832710384155-Mutect2)
+Mutect2 is used for paired tumor-normal variant calling, generating chromosome split unfiltered calls, variant statistic files, realigned bam files and F1R2 counts.
+By default, `{sample}` is a shared pair ID, and the BAM read-group `SM` values are `{sample}_T` and `{sample}_N`. Pipelines with separately named normals can override the normal BAM and sample name.
+
+### :snake: Rule
+
+#SNAKEMAKE_RULE_SOURCE__gatk__gatk_mutect2_tn#
+
+#### :left_right_arrow: input / output files
+
+#SNAKEMAKE_RULE_TABLE__gatk__gatk_mutect2_tn#
+
+### :wrench: Configuration
+
+#### Software settings (`config.yaml`)
+
+#CONFIGSCHEMA__gatk_mutect2_tn#
+
+#### Resources settings (`resources.yaml`)
+
+#RESOURCESSCHEMA__gatk_mutect2_tn#
+
+---
+
 ## [glnexus](https://github.com/dnanexus-rnd/GLnexus)
 Joint variant caller based on `.g.vcf` files from deeptrio or other sources. Can be used for family trios as well as larger cohorts.
 
