@@ -83,6 +83,7 @@ Heterogeneity in the VAF-related fields and in the way of computing the VAF are 
 * `snv_indels/deepvariant/{sample}_{type}.merged.sorted.vcf.gz`
 * `snv_indels/freebayes/{sample}_{type}.merged.sorted.vcf.gz`
 * `snv_indels/gatk_mutect2/{sample}_{type}.merged.sorted.vcf.gz`
+* `snv_indels/gatk_mutect2_tn/{sample}_T.normalized.merged_af.sorted.vcf.gz` (tumor sample selected from paired calls)
 * `snv_indels/glnexus/{sample}_{type}.vcf.gz`
 * `snv_indels/haplotypecaller/{sample}_{type}.merged.sorted.vcf.gz`
 * `snv_indels/vardict/{sample}_{type}.merged.sorted.vcf.gz`
@@ -90,7 +91,6 @@ Heterogeneity in the VAF-related fields and in the way of computing the VAF are 
 <br/>
 
 Small variants in the `.vcf` format that can be decomposed and normalized as well. Possibly handled into an ensemble as well, but this may require to reprocess the VCF fields. Indeed, some callers output for instance VAF as `AF` and others as `VAF`, and sometimes the VAF is part of the `INFO` field, while in other cases it is in the `FORMAT` field:
-* `snv_indels/gatk_mutect2_tn/{sample}_T.merged.sorted.vcf.gz` (merged, filtered and sorted calls, retaining native Mutect2 `FORMAT/AF` fields without `fix_af` or ensembling)
 * `snv_indels/deepsomatic_tn/{sample}_{type}.vcf.gz`  
 * `snv_indels/deepsomatic_t_only/{sample}_{type}.vcf.gz` 
 * `snv_indels/deepmosaic/{sample}_{type}/final_predictions.txt`

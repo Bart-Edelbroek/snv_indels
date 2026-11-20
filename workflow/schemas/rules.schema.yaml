@@ -115,6 +115,25 @@ properties:
             type: string
             description: the converted `.vcf` file
 
+  bcftools_view_tumor:
+    type: object
+    description: input and output parameters for bcftools_view_tumor
+    properties:
+      input:
+        type: object
+        description: list of inputs
+        properties:
+          vcf:
+            type: string
+            description: merged and filtered paired Mutect2 vcf containing tumor and normal samples
+      output:
+        type: object
+        description: list of outputs
+        properties:
+          vcf:
+            type: string
+            description: compressed vcf containing only the tumor sample for downstream processing
+
   bed_split:
     type: object
     description: input and output parameters for bed_split
